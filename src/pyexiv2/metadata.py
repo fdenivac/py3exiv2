@@ -57,13 +57,15 @@ class ImageMetadata(MutableMapping):
     It also provides access to the previews embedded in an image.
     """
 
-    def __init__(self, filename):
+    def __init__(self, filename, fsencoding='cp1252'):
         """Instanciate the ImageMeatadata class.
 
         Args:
         filename: str(path to an image file)
+        fsencoding: str(encoding of filesystem).
         """
         self.filename = filename
+        self.fsencoding = fsencoding
         self.__image = None
         self._keys = {'exif': None, 'iptc': None, 'xmp': None}
         self._tags = {'exif': {}, 'iptc': {}, 'xmp': {}}
@@ -84,7 +86,7 @@ class ImageMetadata(MutableMapping):
         stat = os.stat(filename)
         self._atime = stat.st_atime
         self._mtime = stat.st_mtime
-        return libexiv2python._Image(filename)
+        return libexiv2python._Image(filename.encode(self.fsencoding))
 
     @classmethod
     def from_buffer(cls, buffer_):
