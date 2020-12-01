@@ -507,6 +507,12 @@ class XmpTag(object):
             else:
                 raise XmpValueError(value, type_)
 
+        elif type_ == 'Open Choice of Text':
+            return str(value)
+
+        elif type_ == 'Real':
+            return str(value)
+
         elif type_ == '':
             # Undefined type
             if isinstance(value, str):
